@@ -104,7 +104,6 @@ insert into public.subjects (name, category) values
   ('Literatura', 'curricular'),
   ('Matemática', 'curricular'),
   ('Tecnologias Interativas', 'curricular'),
-  ('DISCIPLINAS TÉCNICAS', 'technical'),
   ('Robótica', 'technical'),
   ('Linguagem de Programação', 'technical'),
   ('Lógica de Programação', 'technical'),

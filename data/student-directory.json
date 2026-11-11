@@ -49,10 +49,6 @@
       "category": "curricular"
     },
     {
-      "name": "DISCIPLINAS TÉCNICAS",
-      "category": "technical"
-    },
-    {
       "name": "Robótica",
       "category": "technical"
     },
@@ -131,70 +127,248 @@
       "login": "fac",
       "role": "admin",
       "class_name": "1º H - Informática",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Robótica",
+        "Linguagem de Programação",
+        "Lógica de Programação",
+        "Sistemas Operacionais",
+        "Manutenção e Suporte de Computadores",
+        "Web Design"
+      ]
     },
     {
       "display_name": "Lívia Covo",
       "login": "lbc",
       "role": "student",
       "class_name": "1º H - Publicidade",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Fotografia",
+        "Fundamentos e Inovações em Publicidade",
+        "Direção de Arte"
+      ]
     },
     {
       "display_name": "Gustavo Lopez",
       "login": "glm",
       "role": "student",
       "class_name": "1º H - Inteligência Artificial",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Robótica",
+        "Lógica de Programação",
+        "Arquitetura de Dados",
+        "Soluções para IA"
+      ]
     },
     {
       "display_name": "Davi Vilela",
       "login": "djvb",
       "role": "student",
       "class_name": "1º H - Cibersegurança",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Lógica de Programação",
+        "Sistemas Operacionais",
+        "Segurança da Informação",
+        "Rede de Computadores",
+        "Banco de Dados",
+        "Arquitetura de Dados"
+      ]
     },
     {
       "display_name": "Maya Victalino",
       "login": "mvsa",
       "role": "student",
       "class_name": "1º H - Multimídia",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Fotografia",
+        "Áudio",
+        "Composição Gráfica"
+      ]
     },
     {
       "display_name": "Giovana Fugulin",
       "login": "gaf",
       "role": "student",
       "class_name": "1º H - Comércio Exterior",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Inglês Instrumental",
+        "Comércio Internacional"
+      ]
     },
     {
       "display_name": "Mel Moraes",
       "login": "mfm",
       "role": "student",
       "class_name": "1º C - Informática",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Robótica",
+        "Linguagem de Programação",
+        "Lógica de Programação",
+        "Sistemas Operacionais",
+        "Manutenção e Suporte de Computadores",
+        "Web Design"
+      ]
     },
     {
       "display_name": "Guilherme Lima",
       "login": "glr",
       "role": "student",
       "class_name": "1º D - Informática",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Robótica",
+        "Linguagem de Programação",
+        "Lógica de Programação",
+        "Sistemas Operacionais",
+        "Manutenção e Suporte de Computadores",
+        "Web Design"
+      ]
     },
     {
       "display_name": "Carlos Melo",
       "login": "ceam",
       "role": "student",
       "class_name": "1º F - Informática ",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Robótica",
+        "Linguagem de Programação",
+        "Lógica de Programação",
+        "Sistemas Operacionais",
+        "Manutenção e Suporte de Computadores",
+        "Web Design"
+      ]
     },
     {
       "display_name": "Diogo Trajano",
       "login": "dtb",
       "role": "student",
       "class_name": "1º B - Informática",
-      "subjects": []
+      "subjects": [
+        "Arte",
+        "Biologia",
+        "Direito e Ética",
+        "Química",
+        "Física",
+        "Geografia",
+        "Gramática",
+        "História",
+        "Redação",
+        "Literatura",
+        "Matemática",
+        "Tecnologias Interativas",
+        "Robótica",
+        "Linguagem de Programação",
+        "Lógica de Programação",
+        "Sistemas Operacionais",
+        "Manutenção e Suporte de Computadores",
+        "Web Design"
+      ]
     }
   ]
 }
