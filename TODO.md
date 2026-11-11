@@ -12,7 +12,9 @@
 - [x] Implementar Focus Space com cronômetro funcional em modo demonstração.
 - [x] Implementar calculadora demonstrativa respeitando os pesos de matérias curriculares e técnicas definidos no README.
 - [x] Expor `manus-routes.json` com as rotas principais.
-- [ ] Adicionar autenticação, banco, permissões e dados privados em uma etapa com backend.
+- [x] Adicionar a camada inicial de autenticação Supabase, perfis privados, disciplinas e RLS para notas.
+- [ ] Executar `supabase-schema.sql` no projeto Supabase e criar manualmente os usuários autorizados.
 - [ ] Adicionar conteúdos escolares reais e fluxo de publicação administrativa.
-- [ ] Adicionar integração de notas e calendário persistente.
+- [x] Adicionar cadastro persistente de notas, com PO, SI e cada AC em registro individual.
+- [ ] Adicionar calendário persistente.
 - [ ] Validar a publicação final no endereço do GitHub Pages.

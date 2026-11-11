@@ -1373,3 +1373,6 @@ Por exemplo, uma prova cadastrada no calendário poderá influenciar as recomend
 ---
 
 *StudyFCP — Learn. Explore. Evolve.*
+## Configuração de dados reais (fase de testes)
+
+A primeira integração com Supabase está documentada em `SUPABASE_SETUP.md`. Execute `supabase-schema.sql` no SQL Editor do projeto e crie os usuários manualmente usando os identificadores internos indicados no documento. O frontend usa somente a chave pública do projeto; senhas não são armazenadas no repositório.
