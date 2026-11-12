@@ -15,6 +15,8 @@
 - [x] Adicionar a camada inicial de autenticação Supabase, perfis privados, disciplinas e RLS para notas.
 - [ ] Executar `supabase-schema.sql` no projeto Supabase e criar manualmente os usuários autorizados.
 - [ ] Adicionar conteúdos escolares reais e fluxo de publicação administrativa.
+- [x] Criar catálogo personalizado de matérias na Biblioteca, com filtros e estados vazios claros.
 - [x] Adicionar cadastro persistente de notas, com PO, SI e cada AC em registro individual.
+- [x] Integrar médias dos três trimestres, pontuação anual e destaque visual para notas abaixo de 6,0.
 - [ ] Adicionar calendário persistente.
-- [ ] Validar a publicação final no endereço do GitHub Pages.
+- [ ] Validar a publicação final no endereço do GitHub Pages após cada atualização.
