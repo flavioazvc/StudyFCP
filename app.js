@@ -12,9 +12,11 @@ document.getElementById('menuToggle').addEventListener('click', () => sidebar.cl
 document.getElementById('dismissNotice').addEventListener('click', (event) => event.currentTarget.parentElement.remove());
 document.querySelectorAll('.task-row input').forEach((input) => input.addEventListener('change', () => { const task = input.closest('.task-row').querySelector('strong').textContent; showToast(input.checked ? `Tarefa concluída: ${task}` : `Tarefa reaberta: ${task}`); }));
 
-const searchInput = document.getElementById('globalSearch'); const contentCards = [...document.querySelectorAll('.content-card')]; const emptyLibrary = document.getElementById('emptyLibrary');
-searchInput.addEventListener('input', () => { const query = searchInput.value.toLowerCase().trim(); if (query) navigate('library'); let visible = 0; contentCards.forEach((card) => { const matches = !query || `${card.dataset.search} ${card.textContent}`.toLowerCase().includes(query); card.hidden = !matches; if (matches) visible += 1; }); emptyLibrary.hidden = visible > 0; });
-document.querySelectorAll('.filter-tab').forEach((tab) => tab.addEventListener('click', () => { document.querySelectorAll('.filter-tab').forEach((other) => other.classList.remove('active')); tab.classList.add('active'); const filter = tab.dataset.filter; let visible = 0; contentCards.forEach((card) => { const matches = filter === 'all' || card.dataset.subject === filter; card.hidden = !matches; if (matches) visible += 1; }); emptyLibrary.hidden = visible > 0; }));
+const searchInput = document.getElementById('globalSearch'); const emptyLibrary = document.getElementById('emptyLibrary');
+function getContentCards() { return [...document.querySelectorAll('.content-card')]; }
+function applyLibraryFilter(filter = 'all', query = '') { let visible = 0; getContentCards().forEach((card) => { const matchesFilter = filter === 'all' || card.dataset.subject === filter; const matchesQuery = !query || `${card.dataset.search} ${card.textContent}`.toLowerCase().includes(query); card.hidden = !(matchesFilter && matchesQuery); if (!card.hidden) visible += 1; }); emptyLibrary.hidden = visible > 0; }
+searchInput.addEventListener('input', () => { const query = searchInput.value.toLowerCase().trim(); if (query) navigate('library'); applyLibraryFilter(document.querySelector('.filter-tab.active')?.dataset.filter || 'all', query); });
+document.querySelectorAll('.filter-tab').forEach((tab) => tab.addEventListener('click', () => { document.querySelectorAll('.filter-tab').forEach((other) => other.classList.remove('active')); tab.classList.add('active'); applyLibraryFilter(tab.dataset.filter, searchInput.value.toLowerCase().trim()); }));
 document.addEventListener('keydown', (event) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); searchInput.focus(); } });
 
 let focusSeconds = 25 * 60; let focusInterval = null; const focusTimer = document.getElementById('focusTimer'); const startFocus = document.getElementById('startFocus');
@@ -27,9 +29,9 @@ const calculatorInputs = ['po1', 'po2', 'ac', 'si'].map((id) => document.getElem
 function calculateGrade() { const [po1, po2, ac, si] = calculatorInputs.map((input) => Number(input.value) || 0); const po = (po1 + po2) / 2; const result = subjectType.value === 'technical' ? po * 0.5 + ac * 0.4 + si * 0.1 : po * 0.5 + ac * 0.3 + si * 0.2; calcResult.textContent = result.toFixed(1).replace('.', ','); }
 [...calculatorInputs, subjectType].forEach((input) => input.addEventListener('input', calculateGrade));
 document.getElementById('openGradeCalc').addEventListener('click', () => { navigate('tools'); document.getElementById('calculator').scrollIntoView({ behavior: 'smooth', block: 'center' }); showToast('Calculadora aberta. Os valores são apenas uma simulação.'); });
-document.querySelectorAll('.content-card .round-arrow').forEach((button) => button.addEventListener('click', () => showToast('Leitor de conteúdo: disponível na próxima etapa.')));
+document.addEventListener('click', (event) => { if (event.target.closest('.content-card .round-arrow')) showToast('Leitor de conteúdo: disponível na próxima etapa.'); });
 document.querySelectorAll('.tool-card .text-button').forEach((button) => button.addEventListener('click', () => showToast('Esta ferramenta está preparada para a próxima integração.')));
-document.getElementById('libraryFocusButton').addEventListener('click', () => { const first = document.querySelector('.library-subject-card'); if (first) first.click(); else showToast('Entre no seu perfil para carregar suas matérias.'); });
+document.getElementById('libraryFocusButton').addEventListener('click', () => { const first = document.querySelector('.library-subject-widget'); if (first) first.click(); else showToast('Entre no seu perfil para carregar suas matérias.'); });
 
 // Supabase: login com identificador interno, sem e-mail na experiência do aluno.
 const sb = window.supabase.createClient(window.STUDYFCP_SUPABASE.url, window.STUDYFCP_SUPABASE.anonKey);
@@ -60,6 +62,7 @@ async function loadSubjects() {
   select.innerHTML = allSubjects.length ? allSubjects.map((subject) => `<option value="${subject.id}">${subject.name} · ${subject.category === 'technical' ? 'técnica' : 'curricular'}</option>`).join('') : '<option value="">Nenhuma disciplina encontrada</option>';
   renderSubjectWidget();
   renderLibrarySubjects();
+  renderDemoContents();
   updateAssessmentOptions();
 }
 function renderSubjectWidget() {
@@ -71,6 +74,34 @@ function renderSubjectWidget() {
   target.innerHTML = allSubjects.map((subject, index) => { const count = currentGrades.filter((grade) => grade.subject_id === subject.id).length; const tone = subject.category === 'technical' ? 'chip-cyan' : index % 3 === 0 ? 'chip-violet' : 'chip-amber'; return `<button type="button" class="subject-chip ${tone}" data-subject-id="${subject.id}"><i></i><span>${subject.name}</span><b>${count ? `${count} registro${count > 1 ? 's' : ''}` : 'começar'}</b></button>`; }).join('');
   target.querySelectorAll('[data-subject-id]').forEach((button) => button.addEventListener('click', () => { navigate('performance'); document.getElementById('gradeSubject').value = button.dataset.subjectId; setTimeout(() => document.getElementById('gradeFormCard').scrollIntoView({ behavior: 'smooth', block: 'center' }), 80); }));
 }
+function subjectContent(subject) {
+  const catalog = {
+    'Arte': ['O ateliê das cores impossíveis', 'Descubra como luz, forma e contraste criam uma linguagem visual.', 'GUIA VISUAL', 'iniciante'],
+    'Biologia': ['A floresta que respira', 'Uma viagem pelas relações entre folhas, energia e equilíbrio dos ecossistemas.', 'EXPLICAÇÃO', 'iniciante'],
+    'Direito e Ética': ['O tribunal das escolhas', 'Debata dilemas, responsabilidade e convivência a partir de casos imaginários.', 'ESTUDO DE CASO', 'intermediário'],
+    'Química': ['O laboratório das reações', 'Observe transformações da matéria e organize evidências como um cientista.', 'EXPERIMENTO TEÓRICO', 'intermediário'],
+    'Física': ['A estação do tempo congelado', 'Use movimento, distância e velocidade para resolver o enigma de uma cidade parada.', 'MISSÃO · 22 MIN', 'intermediário'],
+    'Geografia': ['Atlas das cidades flutuantes', 'Analise território, clima e ocupação em um mapa de um mundo inventado.', 'MAPA GUIADO', 'intermediário'],
+    'Gramática': ['O reino das frases perdidas', 'Reconstrua sentidos usando classes de palavras, concordância e pontuação.', 'DESAFIO', 'iniciante'],
+    'História': ['Cartas de uma civilização esquecida', 'Interprete fontes e conecte acontecimentos para reconstruir uma sociedade antiga.', 'FONTES HISTÓRICAS', 'intermediário'],
+    'Redação': ['A biblioteca dos argumentos', 'Monte repertórios e transforme referências em argumentos com intenção.', 'GUIA PRÁTICO', 'iniciante'],
+    'Literatura': ['O livro que muda de final', 'Explore narrador, tempo e personagem em uma narrativa fantástica.', 'LEITURA GUIADA', 'iniciante'],
+    'Matemática': ['A função da ponte lunar', 'Visualize relações entre variáveis e encontre o caminho pela álgebra.', 'EXPLICAÇÃO', 'intermediário'],
+    'Tecnologias Interativas': ['A interface da cidade-luz', 'Pense em interação, experiência e resposta visual para criar telas melhores.', 'PROJETO', 'intermediário'],
+    'Robótica': ['O autômato do jardim', 'Combine sensores, lógica e movimento para ajudar um robô em sua missão.', 'OFICINA', 'intermediário'],
+    'Linguagem de Programação': ['O compilador e o dragão', 'Pratique variáveis, estruturas e funções em uma aventura de código.', 'TRILHA DE CÓDIGO', 'iniciante'],
+    'Lógica de Programação': ['O labirinto dos algoritmos', 'Resolva problemas com decisões, repetições e passos bem definidos.', 'DESAFIO', 'iniciante'],
+    'Sistemas Operacionais': ['A torre dos processos', 'Entenda memória, processos e arquivos em uma simulação de sistema.', 'SIMULAÇÃO', 'intermediário'],
+    'Manutenção e Suporte de Computadores': ['A oficina do computador misterioso', 'Investigue sintomas e encontre a causa de falhas em uma máquina fictícia.', 'DIAGNÓSTICO', 'intermediário'],
+    'Web Design': ['O portal entre dois mundos', 'Planeje hierarquia, cor e responsividade para uma página de fantasia.', 'PROJETO VISUAL', 'iniciante']
+  };
+  return catalog[subject] || [`${subject}: missão de descoberta`, `Explore conceitos de ${subject} em uma atividade demonstrativa criada para testar a Biblioteca.`, 'CONTEÚDO DEMO', 'iniciante'];
+}
+function renderDemoContents() {
+  const target = document.getElementById('contentCards');
+  if (!target || target.dataset.demoRendered === 'true') return;
+  allSubjects.forEach((subject) => { const [title, description, type, difficulty] = subjectContent(subject.name); const visual = subjectVisuals[subject.name] || [subject.name.slice(0, 2).toUpperCase(), 'subject-default']; const slug = slugify(subject.name); const article = document.createElement('article'); article.className = 'content-card demo-content'; article.dataset.subject = slug; article.dataset.search = `${subject.name} ${title} ${description}`.toLowerCase(); article.innerHTML = `<div class="content-cover ${visual[1]}"><b>${visual[0]}</b><span>${subject.name.toUpperCase()}</span><i></i></div><div class="content-body"><span class="content-type">DEMO · ${type}</span><h3>${title}</h3><p>${description}</p><div class="content-footer"><span class="difficulty ${difficulty === 'intermediário' ? 'medium-difficulty' : 'easy'}">${difficulty}</span><button class="round-arrow" aria-label="Abrir ${title}">→</button></div></div>`; target.appendChild(article); }); target.dataset.demoRendered = 'true'; updateLibraryCounts(); }
+function updateLibraryCounts() { const total = getContentCards().length; const allTab = document.querySelector('.filter-tab[data-filter="all"] span'); if (allTab) allTab.textContent = total; }
 function slugify(value) { return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
 const subjectVisuals = {
   'Arte': ['✦', 'subject-art'], 'Biologia': ['❧', 'subject-bio'], 'Direito e Ética': ['⚖', 'subject-law'], 'Química': ['⚗', 'subject-chem'], 'Física': ['∑', 'subject-physics'], 'Geografia': ['⌖', 'subject-geo'], 'Gramática': ['Aa', 'subject-grammar'], 'História': ['◷', 'subject-history'], 'Redação': ['Aa', 'subject-writing'], 'Literatura': ['❝', 'subject-literature'], 'Matemática': ['f(x)', 'subject-math'], 'Tecnologias Interativas': ['⌘', 'subject-tech'], 'Robótica': ['◈', 'subject-robotics'], 'Linguagem de Programação': ['</>', 'subject-code'], 'Lógica de Programação': ['λ', 'subject-logic'], 'Sistemas Operacionais': ['▣', 'subject-os'], 'Manutenção e Suporte de Computadores': ['⚙', 'subject-support'], 'Web Design': ['◫', 'subject-web'], 'Fotografia': ['◉', 'subject-photo'], 'Fundamentos e Inovações em Publicidade': ['✺', 'subject-ad'], 'Direção de Arte': ['✎', 'subject-direction'], 'Segurança da Informação': ['⌁', 'subject-security'], 'Rede de Computadores': ['⌘', 'subject-network'], 'Banco de Dados': ['▤', 'subject-database'], 'Arquitetura de Dados': ['◫', 'subject-architecture'], 'Soluções para IA': ['✧', 'subject-ai'], 'Áudio': ['♫', 'subject-audio'], 'Composição Gráfica': ['▦', 'subject-graphic'], 'Inglês Instrumental': ['Aa', 'subject-english'], 'Comércio Internacional': ['↗', 'subject-trade']
